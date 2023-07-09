@@ -46,4 +46,10 @@ public class Hotel {
 	public void setGerenteHotel(String gerenteHotel) {
 		this.gerenteHotel = gerenteHotel;
 	}
+
+	@Override
+	public String toString() {
+		return "Hotel [id=" + id + ", nomeHotel=" + nomeHotel + ", cidadeHotel=" + cidadeHotel + ", gerenteHotel="
+				+ gerenteHotel + "]";
+	}
 }
