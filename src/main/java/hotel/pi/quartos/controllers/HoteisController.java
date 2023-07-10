@@ -16,7 +16,7 @@ public class HoteisController {
 	
 	@RequestMapping("/hoteis/form")
 	public String form() {
-		return "formHotel";
+		return "hoteis/formHotel";
 	}
 	
 	@PostMapping("/hoteis")
@@ -25,6 +25,6 @@ public class HoteisController {
 		System.out.println(hotel);
 		hr.save(hotel);
 
-		return "hotel-adicionado";
+		return "hoteis/hotel-adicionado";
 	}
 }
