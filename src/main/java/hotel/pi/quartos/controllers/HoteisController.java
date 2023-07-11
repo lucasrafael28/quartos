@@ -86,4 +86,21 @@ public class HoteisController {
 
 		return "redirect:/hoteis/{idHotel}";
 	}
+
+	@GetMapping("/{id}/remover")
+	public String apagarHotel(@PathVariable Long id) {
+
+		Optional<Hotel> opt = hr.findById(id);
+
+		if (!opt.isEmpty()) {
+			Hotel hotel = opt.get();
+
+			List<Quarto> quartos = qr.findByHotel(hotel);
+
+			qr.deleteAll(quartos);
+			hr.delete(hotel);
+		}
+
+		return "redirect:/hoteis";
+	}
 }

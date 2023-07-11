@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<title>Hotéis</title>
 </head>
 
@@ -24,14 +25,16 @@
 					<th>Nome do Hotel</th>
 					<th>Cidade do Hotel</th>
 					<th>Nome do Gerente</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="h : ${hoteis}">
 					<td th:text="${h.id}">1</td>
-					<td><a th:href="@{/hoteis/{id}(id=${h.id})}"><span th:text="${h.nomeHotel}">/span></a></td>
+					<td><a th:href="@{/hoteis/{id}(id=${h.id})}"><span th:text="${h.nomeHotel}"></span></a></td>
 					<td th:text="${h.cidadeHotel}"></td>
 					<td th:text="${h.gerenteHotel}"></td>
+					<td><a th:href="@{/hoteis/{id}/remover(id=${h.id})}"><i class="material-icons">delete</i></a></td>
 				</tr>
 			</tbody>
 		</table>
