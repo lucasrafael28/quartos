@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<title>Eventos</title>
 </head>
 
@@ -66,12 +67,17 @@
 								<tr>
 									<th>Id</th>
 									<th>Número do Quarto</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="q : ${quartos}">
 									<td th:text="${q.id}"></td>
 									<td th:text="${q.numeroQuarto}"></td>
+									<td><a
+											th:href="@{/hoteis/{idHotel}/quartos/{idQuarto}/remover(idHotel=${hotel.id}, idQuarto=${q.id})}"><i
+												class="material-icons">delete</i></a></td>
+								</tr>
 								</tr>
 							</tbody>
 						</table>

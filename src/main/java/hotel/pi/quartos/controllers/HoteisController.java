@@ -103,4 +103,17 @@ public class HoteisController {
 
 		return "redirect:/hoteis";
 	}
+
+	@GetMapping("/{idHotel}/quartos/{idQuarto}/remover")
+	public String apagarHotel(@PathVariable Long idHotel, @PathVariable Long idQuarto) {
+
+		Optional<Quarto> opt = qr.findById(idQuarto);
+
+		if (!opt.isEmpty()) {
+			Quarto quarto = opt.get();
+			qr.delete(quarto);
+		}
+
+		return "redirect:/hoteis/{idHotel}";
+	}
 }
