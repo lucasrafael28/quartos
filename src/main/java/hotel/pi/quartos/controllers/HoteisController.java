@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import hotel.pi.quartos.models.Hotel;
+import hotel.pi.quartos.models.Quarto;
 import hotel.pi.quartos.repositories.HotelRepository;
+import hotel.pi.quartos.repositories.QuartoRepository;
 
 @Controller
 @RequestMapping("/hoteis")
@@ -20,6 +22,9 @@ public class HoteisController {
 
 	@Autowired
 	HotelRepository hr;
+
+	@Autowired
+	QuartoRepository qr;
 
 	@GetMapping("/form")
 	public String form() {
@@ -57,6 +62,28 @@ public class HoteisController {
 		Hotel hotel = opt.get();
 		md.addObject("hotel", hotel);
 
+		List<Quarto> quartos = qr.findByHotel(hotel);
+		md.addObject("quartos", quartos);
+
 		return md;
+	}
+
+	@PostMapping("/{idHotel}")
+	public String salvarQuarto(@PathVariable Long idHotel, Quarto quarto) {
+
+		System.out.println("Id do hotel: " + idHotel);
+		System.out.println(quarto);
+
+		Optional<Hotel> opt = hr.findById(idHotel);
+		if (opt.isEmpty()) {
+			return "redirect:/hoteis";
+		}
+
+		Hotel hotel = opt.get();
+		quarto.setHotel(hotel);
+
+		qr.save(quarto);
+
+		return "redirect:/hoteis/{idHotel}";
 	}
 }
