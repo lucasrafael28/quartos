@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<!-- Compiled and minified CSS -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<title>Hotéis</title>
+	<meta charset="UTF-8">
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<title>Hotéis</title>
 </head>
+
 <body>
 	<div th:replace="~{menu :: menu}"></div>
 
@@ -28,7 +29,7 @@
 			<tbody>
 				<tr th:each="h : ${hoteis}">
 					<td th:text="${h.id}">1</td>
-					<td th:text="${h.nomeHotel}"></td>
+					<td><a th:href="@{/hoteis/{id}(id=${h.id})}"><span th:text="${h.nomeHotel}">/span></a></td>
 					<td th:text="${h.cidadeHotel}"></td>
 					<td th:text="${h.gerenteHotel}"></td>
 				</tr>
@@ -36,4 +37,5 @@
 		</table>
 	</div>
 </body>
+
 </html>
