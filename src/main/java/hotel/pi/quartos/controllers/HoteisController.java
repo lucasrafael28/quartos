@@ -3,8 +3,11 @@ package hotel.pi.quartos.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +35,11 @@ public class HoteisController {
 	}
 
 	@PostMapping
-	public String salvar(Hotel hotel) {
+	public String salvar(@Valid Hotel hotel, BindingResult result) {
+		
+		if(result.hasErrors()) {
+			return form(hotel);
+		}
 
 		System.out.println(hotel);
 		hr.save(hotel);
@@ -69,8 +76,12 @@ public class HoteisController {
 	}
 
 	@PostMapping("/{idHotel}")
-	public String salvarVisitante(@PathVariable Long idHotel, Visitante visitante) {
+	public String salvarVisitante(@PathVariable Long idHotel, @Valid Visitante visitante, BindingResult result) {
 
+		if(result.hasErrors()) {
+			return "redirect:/hoteis/{idHotel}";
+		}
+		
 		System.out.println("Id do hotel: " + idHotel);
 		System.out.println(visitante);
 

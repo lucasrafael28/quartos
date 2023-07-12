@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<title>Eventos</title>
+	<title>Hotéis</title>
 </head>
 
 <body>
@@ -43,15 +43,16 @@
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title">Adicionar Visitante:</span>
-						<form th:action="@{/hoteis/{idHotel}(idHotel=${hotel.id})}" method="post">
-							<div><input type="hidden" name="id" th:value="${visitante.id}" readonly="readonly"></div>
+						<form th:action="@{/hoteis/{idHotel}(idHotel=${hotel.id})}" method="post"
+							th:object="${visitante}">
+							<div><input type="hidden" th:field="*{id}" readonly="readonly"></div>
 							<div>
-								<label>Nome do Hóspede: </label> <input type="text" name="nome"
-									th:value="${visitante.nome}">
+								<label>Nome do Hóspede: </label> <input type="text" th:field="*{nome}">
+								<p th:errors="*{nome}"></p>
 							</div>
 							<div>
-								<label>RG do Hóspede: </label> <input type="text" name="rg"
-									th:value="${visitante.rg}">
+								<label>RG do Hóspede: </label> <input type="text" th:field="*{rg}">
+								<p th:errors="*{rg}"></p>
 							</div>
 							<div>
 								<button type="submit" class="btn">Salvar</button>

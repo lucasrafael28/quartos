@@ -16,18 +16,21 @@
 
 		<h1>Adicionar Evento</h1>
 
-		<form action="/hoteis" method="post">
+		<form action="/hoteis" method="post" th:object="${hotel}">
 
-			<div><input type="hidden" name="id" th:value="${hotel.id}" readonly="readonly"></div>
+			<div><input type="hidden" th:field="*{id}" readonly="readonly"></div>
 
 			<div>
-				<label>Nome do Hotel:</label> <input type="text" name="nomeHotel" th:value="${hotel.nomeHotel}">
+				<label>Nome do Hotel:</label> <input type="text" th:field="*{nomeHotel}">
+				<p th:errors="*{nomeHotel}"></p>
 			</div>
 			<div>
-				<label>Cidade do Hotel:</label> <input type="text" name="cidadeHotel" th:value="${hotel.cidadeHotel}">
+				<label>Cidade do Hotel:</label> <input type="text" th:field="*{cidadeHotel}">
+				<p th:errors="*{cidadeHotel}"></p>
 			</div>
 			<div>
-				<label>Gerente do Hotel:</label> <input type="text" name="gerenteHotel" th:value="${hotel.gerenteHotel}">
+				<label>Gerente do Hotel:</label> <input type="text" th:field="*{gerenteHotel}">
+				<p th:errors="*{gerenteHotel}"></p>
 			</div>
 			<div>
 				<button class="waves-effect waves-light btn" type="submit">Salvar</button>
