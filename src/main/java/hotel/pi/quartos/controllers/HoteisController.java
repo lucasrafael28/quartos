@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import hotel.pi.quartos.models.Hotel;
 import hotel.pi.quartos.models.Visitante;
@@ -35,7 +36,7 @@ public class HoteisController {
 	}
 
 	@PostMapping
-	public String salvar(@Valid Hotel hotel, BindingResult result) {
+	public String salvar(@Valid Hotel hotel, BindingResult result, RedirectAttributes attributes) {
 		
 		if(result.hasErrors()) {
 			return form(hotel);
@@ -43,6 +44,7 @@ public class HoteisController {
 
 		System.out.println(hotel);
 		hr.save(hotel);
+		attributes.addFlashAttribute("mensagem", "Hotel adicionado ao catálogo!");
 
 		return "redirect:/hoteis";
 	}
@@ -76,7 +78,7 @@ public class HoteisController {
 	}
 
 	@PostMapping("/{idHotel}")
-	public String salvarVisitante(@PathVariable Long idHotel, @Valid Visitante visitante, BindingResult result) {
+	public String salvarVisitante(@PathVariable Long idHotel, @Valid Visitante visitante, BindingResult result, RedirectAttributes attributes) {
 
 		if(result.hasErrors()) {
 			return "redirect:/hoteis/{idHotel}";
@@ -94,12 +96,13 @@ public class HoteisController {
 		visitante.setHotel(hotel);
 
 		vr.save(visitante);
+		attributes.addFlashAttribute("mensagem", "Hóspede cadastrado no hotel!");
 
 		return "redirect:/hoteis/{idHotel}";
 	}
 
 	@GetMapping("/{id}/remover")
-	public String apagarHotel(@PathVariable Long id) {
+	public String apagarHotel(@PathVariable Long id, RedirectAttributes attributes) {
 
 		Optional<Hotel> opt = hr.findById(id);
 
@@ -110,19 +113,21 @@ public class HoteisController {
 
 			vr.deleteAll(visitantes);
 			hr.delete(hotel);
+			attributes.addFlashAttribute("mensagem", "Hotel removido do catálogo!");
 		}
 
 		return "redirect:/hoteis";
 	}
 
 	@GetMapping("/{idHotel}/visitantes/{idVisitante}/remover")
-	public String apagarHotel(@PathVariable Long idHotel, @PathVariable Long idVisitante) {
+	public String apagarVisitante(@PathVariable Long idHotel, @PathVariable Long idVisitante, RedirectAttributes attributes) {
 
 		Optional<Visitante> opt = vr.findById(idVisitante);
 
 		if (!opt.isEmpty()) {
 			Visitante visitante = opt.get();
 			vr.delete(visitante);
+			attributes.addFlashAttribute("mensagem", "Hóspede removido do cadastro!");
 		}
 
 		return "redirect:/hoteis/{idHotel}";
