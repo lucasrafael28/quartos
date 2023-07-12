@@ -27,17 +27,17 @@ public class HoteisController {
 	QuartoRepository qr;
 
 	@GetMapping("/form")
-	public String form() {
+	public String form(Hotel hotel) {
 		return "hoteis/formHotel";
 	}
 
 	@PostMapping
-	public String adicionar(Hotel hotel) {
+	public String salvar(Hotel hotel) {
 
 		System.out.println(hotel);
 		hr.save(hotel);
 
-		return "hoteis/hotel-adicionado";
+		return "redirect:/hoteis";
 	}
 
 	@GetMapping
@@ -49,7 +49,7 @@ public class HoteisController {
 	}
 
 	@GetMapping("/{id}")
-	public ModelAndView detalhar(@PathVariable Long id) {
+	public ModelAndView detalhar(@PathVariable Long id, Quarto quarto) {
 		ModelAndView md = new ModelAndView();
 		Optional<Hotel> opt = hr.findById(id);
 
@@ -115,5 +115,49 @@ public class HoteisController {
 		}
 
 		return "redirect:/hoteis/{idHotel}";
+	}
+
+	@GetMapping("/{id}/selecionar")
+	public ModelAndView selecionarHotel(@PathVariable Long id) {
+		ModelAndView md = new ModelAndView();
+		Optional<Hotel> opt = hr.findById(id);
+		if (opt.isEmpty()) {
+			md.setViewName("redirect:/hoteis");
+			return md;
+		}
+
+		Hotel hotel = opt.get();
+		md.setViewName("hoteis/formHotel");
+		md.addObject("hotel", hotel);
+
+		return md;
+	}
+
+	@GetMapping("/{idHotel}/quartos/{idQuarto}/selecionar")
+	public ModelAndView selecionarQuarto(@PathVariable Long idHotel, @PathVariable Long idQuarto) {
+		ModelAndView md = new ModelAndView();
+
+		Optional<Hotel> optHotel = hr.findById(idHotel);
+		Optional<Quarto> optQuarto = qr.findById(idQuarto);
+
+		if (optHotel.isEmpty() || optQuarto.isEmpty()) {
+			md.setViewName("redirect:/hoteis");
+			return md;
+		}
+
+		Hotel hotel = optHotel.get();
+		Quarto quarto = optQuarto.get();
+
+		if (hotel.getId() != quarto.getHotel().getId()) {
+			md.setViewName("redirect:/hoteis");
+			return md;
+		}
+
+		md.setViewName("hoteis/detalhes");
+		md.addObject("quarto", quarto);
+		md.addObject("hotel", hotel);
+		md.addObject("quartos", qr.findByHotel(hotel));
+
+		return md;
 	}
 }

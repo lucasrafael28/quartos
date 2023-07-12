@@ -34,7 +34,10 @@
 					<td><a th:href="@{/hoteis/{id}(id=${h.id})}"><span th:text="${h.nomeHotel}"></span></a></td>
 					<td th:text="${h.cidadeHotel}"></td>
 					<td th:text="${h.gerenteHotel}"></td>
-					<td><a th:href="@{/hoteis/{id}/remover(id=${h.id})}"><i class="material-icons">delete</i></a></td>
+					<td>
+						<a th:href="@{/hoteis/{id}/selecionar(id=${h.id})}"><i class="material-icons">edit</i></a>
+						<a th:href="@{/hoteis/{id}/remover(id=${h.id})}"><i class="material-icons">delete</i></a>
+					</td>
 				</tr>
 			</tbody>
 		</table>

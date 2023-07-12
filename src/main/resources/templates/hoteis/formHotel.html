@@ -18,14 +18,16 @@
 
 		<form action="/hoteis" method="post">
 
+			<div><input type="hidden" name="id" th:value="${hotel.id}" readonly="readonly"></div>
+
 			<div>
-				<label>Nome do Hotel:</label> <input type="text" name="nomeHotel">
+				<label>Nome do Hotel:</label> <input type="text" name="nomeHotel" th:value="${hotel.nomeHotel}">
 			</div>
 			<div>
-				<label>Cidade do Hotel:</label> <input type="text" name="cidadeHotel">
+				<label>Cidade do Hotel:</label> <input type="text" name="cidadeHotel" th:value="${hotel.cidadeHotel}">
 			</div>
 			<div>
-				<label>Gerente do Hotel:</label> <input type="text" name="gerenteHotel">
+				<label>Gerente do Hotel:</label> <input type="text" name="gerenteHotel" th:value="${hotel.nomeGerente}">
 			</div>
 			<div>
 				<button class="waves-effect waves-light btn" type="submit">Salvar</button>
