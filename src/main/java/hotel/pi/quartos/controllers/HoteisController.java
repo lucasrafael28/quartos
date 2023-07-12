@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import hotel.pi.quartos.models.Hotel;
-import hotel.pi.quartos.models.Quarto;
+import hotel.pi.quartos.models.Visitante;
 import hotel.pi.quartos.repositories.HotelRepository;
-import hotel.pi.quartos.repositories.QuartoRepository;
+import hotel.pi.quartos.repositories.VisitanteRepository;
 
 @Controller
 @RequestMapping("/hoteis")
@@ -22,9 +22,9 @@ public class HoteisController {
 
 	@Autowired
 	HotelRepository hr;
-
+	
 	@Autowired
-	QuartoRepository qr;
+	VisitanteRepository vr;
 
 	@GetMapping("/form")
 	public String form(Hotel hotel) {
@@ -49,7 +49,7 @@ public class HoteisController {
 	}
 
 	@GetMapping("/{id}")
-	public ModelAndView detalhar(@PathVariable Long id, Quarto quarto) {
+	public ModelAndView detalhar(@PathVariable Long id, Visitante visitante) {
 		ModelAndView md = new ModelAndView();
 		Optional<Hotel> opt = hr.findById(id);
 
@@ -62,17 +62,17 @@ public class HoteisController {
 		Hotel hotel = opt.get();
 		md.addObject("hotel", hotel);
 
-		List<Quarto> quartos = qr.findByHotel(hotel);
-		md.addObject("quartos", quartos);
+		List<Visitante> visitantes = vr.findByHotel(hotel);
+		md.addObject("visitantes", visitantes);
 
 		return md;
 	}
 
 	@PostMapping("/{idHotel}")
-	public String salvarQuarto(@PathVariable Long idHotel, Quarto quarto) {
+	public String salvarVisitante(@PathVariable Long idHotel, Visitante visitante) {
 
 		System.out.println("Id do hotel: " + idHotel);
-		System.out.println(quarto);
+		System.out.println(visitante);
 
 		Optional<Hotel> opt = hr.findById(idHotel);
 		if (opt.isEmpty()) {
@@ -80,9 +80,9 @@ public class HoteisController {
 		}
 
 		Hotel hotel = opt.get();
-		quarto.setHotel(hotel);
+		visitante.setHotel(hotel);
 
-		qr.save(quarto);
+		vr.save(visitante);
 
 		return "redirect:/hoteis/{idHotel}";
 	}
@@ -95,23 +95,23 @@ public class HoteisController {
 		if (!opt.isEmpty()) {
 			Hotel hotel = opt.get();
 
-			List<Quarto> quartos = qr.findByHotel(hotel);
+			List<Visitante> visitantes = vr.findByHotel(hotel);
 
-			qr.deleteAll(quartos);
+			vr.deleteAll(visitantes);
 			hr.delete(hotel);
 		}
 
 		return "redirect:/hoteis";
 	}
 
-	@GetMapping("/{idHotel}/quartos/{idQuarto}/remover")
-	public String apagarHotel(@PathVariable Long idHotel, @PathVariable Long idQuarto) {
+	@GetMapping("/{idHotel}/visitantes/{idVisitante}/remover")
+	public String apagarHotel(@PathVariable Long idHotel, @PathVariable Long idVisitante) {
 
-		Optional<Quarto> opt = qr.findById(idQuarto);
+		Optional<Visitante> opt = vr.findById(idVisitante);
 
 		if (!opt.isEmpty()) {
-			Quarto quarto = opt.get();
-			qr.delete(quarto);
+			Visitante visitante = opt.get();
+			vr.delete(visitante);
 		}
 
 		return "redirect:/hoteis/{idHotel}";
@@ -133,30 +133,30 @@ public class HoteisController {
 		return md;
 	}
 
-	@GetMapping("/{idHotel}/quartos/{idQuarto}/selecionar")
-	public ModelAndView selecionarQuarto(@PathVariable Long idHotel, @PathVariable Long idQuarto) {
+	@GetMapping("/{idHotel}/visitantes/{idVisitante}/selecionar")
+	public ModelAndView selecionarVisitante(@PathVariable Long idHotel, @PathVariable Long idVisitante) {
 		ModelAndView md = new ModelAndView();
 
 		Optional<Hotel> optHotel = hr.findById(idHotel);
-		Optional<Quarto> optQuarto = qr.findById(idQuarto);
+		Optional<Visitante> optVisitante = vr.findById(idVisitante);
 
-		if (optHotel.isEmpty() || optQuarto.isEmpty()) {
+		if (optHotel.isEmpty() || optVisitante.isEmpty()) {
 			md.setViewName("redirect:/hoteis");
 			return md;
 		}
 
 		Hotel hotel = optHotel.get();
-		Quarto quarto = optQuarto.get();
+		Visitante visitante = optVisitante.get();
 
-		if (hotel.getId() != quarto.getHotel().getId()) {
+		if (hotel.getId() != visitante.getHotel().getId()) {
 			md.setViewName("redirect:/hoteis");
 			return md;
 		}
 
 		md.setViewName("hoteis/detalhes");
-		md.addObject("quarto", quarto);
+		md.addObject("visitante", visitante);
 		md.addObject("hotel", hotel);
-		md.addObject("quartos", qr.findByHotel(hotel));
+		md.addObject("visitantes", vr.findByHotel(hotel));
 
 		return md;
 	}

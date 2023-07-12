@@ -7,12 +7,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Quarto {
+public class Visitante {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private int numeroQuarto;
+	private String nome;
+	private String rg;
 
 	@ManyToOne
 	private Hotel hotel;
@@ -25,12 +26,20 @@ public class Quarto {
 		this.id = id;
 	}
 
-	public int getNumeroQuarto() {
-		return numeroQuarto;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setNumeroQuarto(int numeroQuarto) {
-		this.numeroQuarto = numeroQuarto;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getRg() {
+		return rg;
+	}
+
+	public void setRg(String rg) {
+		this.rg = rg;
 	}
 
 	public Hotel getHotel() {
@@ -43,6 +52,6 @@ public class Quarto {
 
 	@Override
 	public String toString() {
-		return "Quarto [id=" + id + ", numeroQuarto=" + numeroQuarto + ", hotel=" + hotel + "]";
+		return "Visitante [id=" + id + ", nome=" + nome + ", rg=" + rg + ", hotel=" + hotel + "]";
 	}
 }
