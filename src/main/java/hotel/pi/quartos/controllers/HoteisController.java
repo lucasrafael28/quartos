@@ -44,7 +44,7 @@ public class HoteisController {
 
 		System.out.println(hotel);
 		hr.save(hotel);
-		attributes.addFlashAttribute("mensagem", "Hotel adicionado ao catálogo!");
+		attributes.addFlashAttribute("mensagem", "Hotel adicionado ao catálogo");
 
 		return "redirect:/hoteis";
 	}
@@ -96,7 +96,7 @@ public class HoteisController {
 		visitante.setHotel(hotel);
 
 		vr.save(visitante);
-		attributes.addFlashAttribute("mensagem", "Hóspede cadastrado no hotel!");
+		attributes.addFlashAttribute("mensagem", "Hóspede cadastrado no hotel");
 
 		return "redirect:/hoteis/{idHotel}";
 	}
@@ -113,7 +113,7 @@ public class HoteisController {
 
 			vr.deleteAll(visitantes);
 			hr.delete(hotel);
-			attributes.addFlashAttribute("mensagem", "Hotel removido do catálogo!");
+			attributes.addFlashAttribute("mensagem", "Hotel removido do catálogo");
 		}
 
 		return "redirect:/hoteis";
@@ -127,7 +127,7 @@ public class HoteisController {
 		if (!opt.isEmpty()) {
 			Visitante visitante = opt.get();
 			vr.delete(visitante);
-			attributes.addFlashAttribute("mensagem", "Hóspede removido do cadastro!");
+			attributes.addFlashAttribute("mensagem", "Hóspede removido do cadastro");
 		}
 
 		return "redirect:/hoteis/{idHotel}";

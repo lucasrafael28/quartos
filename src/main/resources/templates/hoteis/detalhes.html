@@ -42,7 +42,7 @@
 			<div class="col s12">
 				<div class="card">
 					<div class="card-content">
-						<span class="card-title">Adicionar Visitante:</span>
+						<span class="card-title">Cadastrar Hóspede:</span>
 						<form th:action="@{/hoteis/{idHotel}(idHotel=${hotel.id})}" method="post"
 							th:object="${visitante}">
 							<div><input type="hidden" th:field="*{id}" readonly="readonly"></div>
